@@ -6,51 +6,36 @@ import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import { createClient } from '@supabase/supabase-js';
-import { v4 as uuidv4 } from 'uuid';
 import Joi from 'joi';
 
-// Initialize Express app
 const app = express();
-
-// Initialize Supabase client
 const supabaseUrl = process.env.VITE_SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-// No need to exit in a serverless environment; it will fail naturally if keys are missing.
 const supabase = createClient(supabaseUrl!, supabaseServiceKey!);
 
-// Middleware
 app.use(helmet());
-app.use(cors()); // Use simple CORS for Vercel's environment
+app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
-  message: 'Too many requests from this IP, please try again later.'
 });
 app.use(limiter);
 
-// Validation Schemas
 const participantSchema = Joi.object({
-  age: Joi.string().required().valid('18-25', '26-35', '36-45', '46-55', '56-65', '66+'),
-  field_of_study: Joi.string().min(2).max(100).required().trim(),
-  country_of_residence: Joi.string().min(2).max(100).required().trim()
+  age: Joi.string().required(),
+  field_of_study: Joi.string().required(),
+  country_of_residence: Joi.string().required(),
 });
 
 const surveySubmissionSchema = Joi.object({
   participant: participantSchema.required(),
   responses: Joi.array().items(Joi.object({
-    role_title: Joi.string().min(2).max(100).required().trim(),
-    assigned_icon: Joi.string().min(2).max(100).required().trim(),
-    response_order: Joi.number().integer().min(0).required()
-  })).min(1).max(20).required(),
-  survey_version: Joi.string().default('1.0').trim()
-});
-
-// API Routes
-app.get('/api/health', (req, res) => {
-  res.json({ success: true, message: 'Survey API is running' });
+    role_title: Joi.string().required(),
+    assigned_icon: Joi.string().required(),
+    response_order: Joi.number().required(),
+  })).required(),
 });
 
 app.post('/api/survey/submit', async (req, res) => {
@@ -67,7 +52,6 @@ app.post('/api/survey/submit', async (req, res) => {
 
     const { data: sData, error: sError } = await supabase.from('survey_submissions').insert([{
       participant_id: pData.id,
-      survey_version: value.survey_version,
       completion_status: 'completed',
       submitted_at: new Date().toISOString()
     }]).select().single();
@@ -84,6 +68,4 @@ app.post('/api/survey/submit', async (req, res) => {
   }
 });
 
-// This is the crucial change. Instead of app.listen, we export the app.
-// Vercel will use this to run your serverless function.
 export default app;
