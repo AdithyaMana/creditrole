@@ -16,16 +16,12 @@ const app = express();
 const supabaseUrl = process.env.VITE_SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-if (!supabaseUrl || !supabaseServiceKey) {
-  console.error('CRITICAL ERROR: Missing Supabase environment variables.');
-  // In a serverless environment, we can't process.exit. We'll let it fail on createClient.
-}
-
+// No need to exit in a serverless environment; it will fail naturally if keys are missing.
 const supabase = createClient(supabaseUrl!, supabaseServiceKey!);
 
 // Middleware
 app.use(helmet());
-app.use(cors()); // Simplified CORS for Vercel's environment
+app.use(cors()); // Use simple CORS for Vercel's environment
 app.use(express.json({ limit: '10mb' }));
 
 const limiter = rateLimit({
@@ -63,7 +59,7 @@ app.post('/api/survey/submit', async (req, res) => {
     return res.status(400).json({ success: false, error: 'Validation failed', details: error.details });
   }
 
-  const { participant, responses, survey_version } = value;
+  const { participant, responses } = value;
 
   try {
     const { data: pData, error: pError } = await supabase.from('survey_participants').insert([participant]).select().single();
@@ -71,7 +67,7 @@ app.post('/api/survey/submit', async (req, res) => {
 
     const { data: sData, error: sError } = await supabase.from('survey_submissions').insert([{
       participant_id: pData.id,
-      survey_version,
+      survey_version: value.survey_version,
       completion_status: 'completed',
       submitted_at: new Date().toISOString()
     }]).select().single();
@@ -88,5 +84,6 @@ app.post('/api/survey/submit', async (req, res) => {
   }
 });
 
-// This is the critical change for Vercel
+// This is the crucial change. Instead of app.listen, we export the app.
+// Vercel will use this to run your serverless function.
 export default app;
