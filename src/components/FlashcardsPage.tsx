@@ -190,7 +190,7 @@ export const FlashcardsPage: React.FC<FlashcardsPageProps> = ({ onNext, onBack }
             </button>
         </div>
       </div>
-      <style jsx>{`
+      <style>{`
         .line-clamp-2 {
           display: -webkit-box;
           -webkit-line-clamp: 2;
