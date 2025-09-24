@@ -29,8 +29,8 @@ export const IconDisplay: React.FC<IconDisplayProps> = ({ icon, isMobile, select
   return (
     <div className="flex flex-col items-center space-y-6">
       <div className="text-center">
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">Next Icon</h3>
-        <p className="text-sm text-gray-600">{isMobile ? "Tap to select this icon" : "Drag this icon to a matching role"}</p>
+        <h3 className="text-lg font-semibold text-gray-900 mb-2">{isSelected ? "Icon Selected" : "Next Icon"}</h3>
+        <p className="text-sm text-gray-600">{isMobile ? "Tap a role on the right to assign" : "Drag this icon to a matching role"}</p>
       </div>
       <div 
         className={`transition-all duration-200 p-2 bg-white rounded-xl ${isMobile ? 'cursor-pointer' : 'cursor-move'} ${isSelected ? 'scale-110 shadow-xl ring-4 ring-blue-500' : 'hover:scale-105'}`}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Lightbulb, Database, Search, Coins, Microscope, GitBranch, User, Package, Code, Sigma, ClipboardCheck, BarChart3, Pen, Edit } from 'lucide-react';
+import { CustomIcon } from './CustomIcon';
 
 const iconMap: { [key: string]: React.FC<{ className?: string }> } = {
   'lightbulb': (props) => <Lightbulb {...props} />,
@@ -21,7 +22,7 @@ const iconMap: { [key: string]: React.FC<{ className?: string }> } = {
 export const DynamicIcon: React.FC<{ name: string; className?: string }> = ({ name, className }) => {
   const IconComponent = iconMap[name];
   if (!IconComponent) {
-    return <div className={`w-6 h-6 rounded-full bg-gray-300 ${className}`} />;
+    return <CustomIcon name={name} className={className} />;
   }
   return <IconComponent className={className} />;
 };
