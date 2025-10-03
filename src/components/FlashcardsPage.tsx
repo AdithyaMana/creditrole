@@ -70,9 +70,7 @@ export const FlashcardsPage: React.FC<FlashcardsPageProps> = ({ onNext, onBack }
             </button>
             <div className="text-center">
               <div className="flex justify-center items-center space-x-2 md:space-x-3 mb-1">
-                <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-lg md:rounded-xl flex items-center justify-center">
-                  <BookOpen className="w-5 h-5 md:w-6 md:h-6 text-white" />
-                </div>
+                <img src="/src/assets/crediticon.png" alt="CRediT icon" className="w-12 h-12" />
                 <h1 className="text-xl md:text-3xl font-bold text-gray-900">Learn CRediT Roles</h1>
               </div>
               <p className="hidden md:block text-gray-600">

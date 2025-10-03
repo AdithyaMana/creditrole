@@ -17,8 +17,9 @@ export interface SurveyState {
   isSubmitted: boolean;
   history: CreditRole[][];
   userInfo?: {
-    age: number;
+    age: string;
     fieldOfStudy: string;
+    region: string;
   };
   surveyData?: {
     roles: CreditRole[];
@@ -28,6 +29,7 @@ export interface SurveyState {
 }
 
 export interface UserInfo {
-  age: number;
+  age: string;
   fieldOfStudy: string;
+  region: string;
 }

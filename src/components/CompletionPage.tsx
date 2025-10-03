@@ -1,5 +1,4 @@
 import React from 'react';
-import { CheckCircle } from 'lucide-react';
 
 export const CompletionPage: React.FC<{}> = () => {
   return (
@@ -7,7 +6,7 @@ export const CompletionPage: React.FC<{}> = () => {
       <div className="text-center max-w-2xl mx-auto">
         <div className="relative mb-8">
           <div className="w-24 h-24 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
-            <CheckCircle className="w-12 h-12 text-white" />
+            <img src="src/assets/crediticon.png" alt="Credit Icon" className="w-12 h-12" />
           </div>
           <div className="absolute inset-0 w-24 h-24 bg-green-200 rounded-full mx-auto animate-ping opacity-20"></div>
         </div>
