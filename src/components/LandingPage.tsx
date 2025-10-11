@@ -7,17 +7,17 @@ interface LandingPageProps {
 
 export const LandingPage: React.FC<LandingPageProps> = ({ onNext }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-white to-amber-50">
       {/* Header */}
       <header className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 py-8">
           <div className="text-center">
             <div className="flex justify-center items-center space-x-3 mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center">
-                <Users className="w-7 h-7 text-white" />
+              <div className="w-8 h-8 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-xl flex items-center justify-center">
+                <Users className="w-5 h-5 text-white" />
               </div>
               <h1 className="text-4xl font-bold text-gray-900">
-                CRediT Icon Survey
+                CRediT Role Icon Survey
               </h1>
             </div>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
@@ -45,14 +45,14 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNext }) => {
           </div>
 
           {/* Instructions */}
-          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 mb-8">
+          <div className="bg-gradient-to-r from-yellow-50 to-amber-50 rounded-xl p-6 mb-8">
             <h3 className="text-xl font-semibold text-gray-900 mb-6 text-center">
               How the Survey Works
             </h3>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="flex items-start space-x-4">
-                <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1">
+                <div className="bg-amber-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1">
                   1
                 </div>
                 <div>
@@ -64,7 +64,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNext }) => {
               </div>
 
               <div className="flex items-start space-x-4">
-                <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1">
+                <div className="bg-amber-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1">
                   2
                 </div>
                 <div>
@@ -76,7 +76,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNext }) => {
               </div>
 
               <div className="flex items-start space-x-4">
-                <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1">
+                <div className="bg-amber-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1">
                   3
                 </div>
                 <div>
@@ -88,7 +88,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNext }) => {
               </div>
 
               <div className="flex items-start space-x-4">
-                <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1">
+                <div className="bg-amber-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1">
                   4
                 </div>
                 <div>
@@ -138,7 +138,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNext }) => {
           <div className="text-center">
             <button
               onClick={onNext}
-              className="inline-flex items-center space-x-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 transform hover:scale-105 hover:shadow-xl"
+              className="inline-flex items-center space-x-3 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 transform hover:scale-105 hover:shadow-xl"
             >
               <span>Start Survey</span>
               <ChevronRight className="w-5 h-5" />

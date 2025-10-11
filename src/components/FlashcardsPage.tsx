@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, BookOpen, CheckCircle } from 'lucide-react';
 import { creditDefinitions } from '../data/creditDefinitions';
+import creditIcon from '../assets/crediticon.png';
 
 interface FlashcardsPageProps {
   onNext: () => void;
@@ -70,7 +71,7 @@ export const FlashcardsPage: React.FC<FlashcardsPageProps> = ({ onNext, onBack }
             </button>
             <div className="text-center">
               <div className="flex justify-center items-center space-x-2 md:space-x-3 mb-1">
-                <img src="/src/assets/crediticon.png" alt="CRediT icon" className="w-12 h-12" />
+                <img src={creditIcon} alt="CRediT icon" className="w-12 h-12" />
                 <h1 className="text-xl md:text-3xl font-bold text-gray-900">Learn CRediT Roles</h1>
               </div>
               <p className="hidden md:block text-gray-600">
