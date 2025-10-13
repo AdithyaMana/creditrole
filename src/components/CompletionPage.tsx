@@ -1,7 +1,14 @@
+// creditrole-main/src/components/CompletionPage.tsx
 import React from 'react';
 import creditIcon from '../assets/crediticon.png';
+import { BarChart, RotateCcw } from 'lucide-react';
 
-export const CompletionPage: React.FC<{}> = () => {
+interface CompletionPageProps {
+  onSeeResults: () => void;
+  onRestart: () => void;
+}
+
+export const CompletionPage: React.FC<CompletionPageProps> = ({ onSeeResults, onRestart }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50 flex items-center justify-center p-4">
       <div className="text-center max-w-2xl mx-auto">
@@ -17,27 +24,34 @@ export const CompletionPage: React.FC<{}> = () => {
             Survey Complete!
           </h2>
           <div className="text-6xl mb-6">🎉</div>
-          
+
           <p className="text-lg text-gray-700 mb-6 leading-relaxed">
-            Thank you for your valuable contribution to improving the CRediT taxonomy icons! 
-            Your feedback will help us create more intuitive visual representations for 
+            Thank you for your valuable contribution to improving the CRediT taxonomy icons!
+            Your feedback will help us create more intuitive visual representations for
             scientific contributions in academic publishing.
           </p>
 
-          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 mb-6">
-            <h3 className="font-semibold text-gray-900 mb-3">What happens next?</h3>
-            <div className="text-sm text-gray-700 space-y-2 text-left">
-              <p>• Your responses have been recorded and will be analyzed alongside other participants.</p>
-              <p>• The data will help identify which icons are most intuitively understood.</p>
-              <p>• Results will contribute to the development of standardized CRediT role icons.</p>
-              <p>• Final icon designs will be made available to the academic community.</p>
-            </div>
+          <div className="flex justify-center space-x-4">
+            <button
+              onClick={onRestart}
+              className="inline-flex items-center space-x-2 bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-xl font-semibold text-base transition-all transform hover:scale-105"
+            >
+              <RotateCcw className="w-5 h-5" />
+              <span>Start Over</span>
+            </button>
+            <button
+              onClick={onSeeResults}
+              className="inline-flex items-center space-x-3 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all transform hover:scale-105 hover:shadow-xl"
+            >
+              <BarChart className="w-5 h-5" />
+              <span>See Results</span>
+            </button>
           </div>
         </div>
 
         <div className="text-sm text-gray-600 space-y-2">
           <p>
-            This research is part of ongoing efforts to standardize visual communication 
+            This research is part of ongoing efforts to standardize visual communication
             in academic publishing and improve researcher recognition systems.
           </p>
           <p className="font-medium">

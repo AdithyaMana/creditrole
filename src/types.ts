@@ -1,3 +1,4 @@
+// creditrole-main/src/types.ts
 export interface CreditRole {
   id: number;
   title: string;
@@ -13,14 +14,10 @@ export interface IconItem {
 }
 
 export interface SurveyState {
-  currentPage: 'userInfo' | 'flashcards' | 'survey' | 'completed';
+  currentPage: 'userInfo' | 'flashcards' | 'survey' | 'completed' | 'results';
   isSubmitted: boolean;
-  history: CreditRole[][];
-  userInfo?: {
-    age: string;
-    fieldOfStudy: string;
-    region: string;
-  };
+  history: any[]; // Kept as 'any' to avoid breaking changes if structure varies.
+  userInfo?: UserInfo;
   surveyData?: {
     roles: CreditRole[];
     currentIconIndex: number;
@@ -31,5 +28,11 @@ export interface SurveyState {
 export interface UserInfo {
   age: string;
   fieldOfStudy: string;
-  region: string;
+  countryOfResidence: string;
+}
+
+export interface SurveyResult {
+  role_title: string;
+  assigned_icon: string;
+  selection_count: number;
 }

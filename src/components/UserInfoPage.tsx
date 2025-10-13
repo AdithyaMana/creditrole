@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { UserInfo } from '../types';
-import scienceuxLogo from '../assets/scienceux-logo.png';
-import creditIcon from '../assets/crediticon.png';
+import scienceuxLogo from '../assets/scienceux-logo.png'; // Import the logo
 
 interface UserInfoPageProps {
   onNext: (userInfo: UserInfo) => void;
 }
 
 const scientificFields = [
-  'Biology', 'Chemistry', 'Physics', 'Biochemistry', 'Medical/Medicine',
-  'Psychology', 'Environmental Science', 'Computer Science', 'Mathematics',
-  'Engineering', 'Neuroscience', 'Genetics', 'Pharmacology', 'Other'
+    { label: 'Formal sciences', options: ['Mathematics', 'Logic', 'Statistics', 'Computer Science'] },
+    { label: 'Natural sciences (Physical)', options: ['Physics', 'Chemistry', 'Astronomy', 'Materials Science'] },
+    { label: 'Natural sciences (Life)', options: ['Biology', 'Ecology', 'Neuroscience'] },
+    { label: 'Natural sciences (Earth & Space)', options: ['Geology', 'Oceanography', 'Meteorology', 'Planetary Science'] },
+    { label: 'Social sciences', options: ['Psychology', 'Sociology', 'Economics', 'Political Science', 'Anthropology', 'Human Geography'] },
+    { label: 'Applied/professional', options: ['Engineering', 'Medicine', 'Nursing', 'Agriculture', 'Environmental Engineering'] },
+    { label: 'Interdisciplinary', options: ['Data Science', 'Biochemistry', 'Biophysics', 'Cognitive Science', 'Environmental Science', 'Biomedical Engineering', 'AI/ML', 'Climate Science'] },
+    { label: 'Other' }
 ];
 
 const ageRanges = ['18-25', '26-35', '36-45', '46-55', '56-65', '66+'];
@@ -39,7 +43,7 @@ export const UserInfoPage: React.FC<UserInfoPageProps> = ({ onNext }) => {
 
   const validateForm = () => {
     const newErrors: { age?: string; fieldOfStudy?: string; region?: string } = {};
-    if (!age) newErrors.age = 'Please select an age range';
+    if (!age) newErrors.age = 'Please select your age range';
 
     const finalField = fieldOfStudy === 'Other' ? customField : fieldOfStudy;
     if (!finalField.trim()) newErrors.fieldOfStudy = 'Please select or specify your field of study';
@@ -61,97 +65,95 @@ export const UserInfoPage: React.FC<UserInfoPageProps> = ({ onNext }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-white to-amber-50">
-      <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
-        <div className="max-w-6xl mx-auto px-4 py-6">
-          <div className="flex items-center justify-center">
-            <div className="text-center">
-              <div className="flex justify-center items-center space-x-3 mb-2">
-                <img src={creditIcon} alt="CRediT Role Icon" className="w-20 h-20" />
-                <h1 className="text-3xl font-bold text-gray-900">CRediT Role Icon Survey</h1>
-              </div>
-              <p className="text-gray-600">
-              Creating the IMDb of scientific publishing!
-              </p>
-            </div>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-white">
+      <header className="bg-white shadow-sm border-b border-gray-200">
+        <div className="max-w-4xl mx-auto px-4 py-6 flex flex-col items-center text-center">
+            <img 
+              src={scienceuxLogo} 
+              alt="Science UX Logo" 
+              className="h-12 w-auto mb-3"
+            />
+            <h1 className="text-2xl font-bold text-slate-800">
+              Help choose an icon for each role in science...
+            </h1>
         </div>
       </header>
-
-      <div className="max-w-2xl mx-auto px-4 py-12">
-        <div className="mb-8">
-          <div className="flex items-center justify-center space-x-4">
-            <div className="flex items-center"><div className="w-8 h-8 bg-amber-500 text-white rounded-full flex items-center justify-center text-sm font-bold">1</div><span className="ml-2 text-sm font-medium text-amber-600">User Info</span></div>
-            <div className="w-12 h-0.5 bg-gray-300"></div>
-            <div className="flex items-center"><div className="w-8 h-8 bg-gray-300 text-gray-500 rounded-full flex items-center justify-center text-sm font-bold">2</div><span className="ml-2 text-sm text-gray-500">Learn CRediT</span></div>
-            <div className="w-12 h-0.5 bg-gray-300"></div>
-            <div className="flex items-center"><div className="w-8 h-8 bg-gray-300 text-gray-500 rounded-full flex items-center justify-center text-sm font-bold">3</div><span className="ml-2 text-sm text-gray-500">Survey</span></div>
-          </div>
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="flex items-center justify-center space-x-8 mb-10">
+            <div className="flex items-center space-x-2">
+                <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">1</div>
+                <span className="font-semibold text-blue-600">Your info</span>
+            </div>
+            <div className="flex items-center space-x-2 opacity-50">
+                <div className="w-8 h-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center font-bold">2</div>
+                <span className="font-semibold text-gray-500">Learn the roles</span>
+            </div>
+            <div className="flex items-center space-x-2 opacity-50">
+                <div className="w-8 h-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center font-bold">3</div>
+                <span className="font-semibold text-gray-500">Pick icons</span>
+            </div>
         </div>
-
-        <div className="bg-gradient-to-br from-white to-slate-50 rounded-2xl shadow-2xl p-10 border border-slate-200">
-          <div className="flex flex-col items-center text-center mb-8">
-            <img src={scienceuxLogo} alt="ScienceUX Logo" className="h-16" />
-            <h2 className="text-3xl font-extrabold text-slate-800 mt-4 mb-2 tracking-tight">Tell Us About Yourself</h2>
-            <p className="text-lg text-slate-600">This anonymous data helps us analyze the survey results.</p>
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="age" className="block text-sm font-medium text-gray-700 mb-2">What is your age range? *</label>
-              <select id="age" value={age} onChange={(e) => setAge(e.target.value)} className={`w-full px-4 py-3 border rounded-lg bg-white/50 focus:ring-2 focus:ring-yellow-500 transition-colors ${errors.age ? 'border-red-500' : 'border-gray-300'}`}>
-                <option value="">Select your age range...</option>
-                {ageRanges.map(range => <option key={range} value={range}>{range}</option>)}
-              </select>
-              {errors.age && <p className="mt-1 text-sm text-red-600">{errors.age}</p>}
+        
+        <main className="max-w-lg mx-auto bg-white rounded-2xl shadow-xl p-8 md:p-10 border border-slate-200">
+            <div className="text-center mb-8">
+                <h2 className="text-2xl font-bold text-slate-800">Tell us about yourself</h2>
+                <p className="text-slate-500 mt-2">
+                    So we can make sure the icons are recognizable across people & cultures. It's anonymous.
+                </p>
             </div>
 
-            <div>
-              <label htmlFor="region" className="block text-sm font-medium text-gray-700 mb-2">What is your region? *</label>
-              <select id="region" value={region} onChange={(e) => setRegion(e.target.value)} className={`w-full px-4 py-3 border rounded-lg bg-white/50 focus:ring-2 focus:ring-yellow-500 transition-colors ${errors.region ? 'border-red-500' : 'border-gray-300'}`}>
-                <option value="">Select your region...</option>
-                {regions.map(r => <option key={r} value={r}>{r}</option>)}
-                </select>
-              {errors.region && !region.trim() && <p className="mt-1 text-sm text-red-600">{errors.region}</p>}
-            </div>
+            <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                    <label htmlFor="age" className="block text-sm font-semibold text-gray-700 mb-2">What's your age range?</label>
+                    <select id="age" value={age} onChange={(e) => setAge(e.target.value)} className={`w-full px-4 py-3 border rounded-lg bg-slate-50 focus:ring-2 focus:ring-yellow-500 transition-colors ${errors.age ? 'border-red-500' : 'border-gray-300'}`}>
+                        <option value="" disabled>Select age range...</option>
+                        {ageRanges.map(range => <option key={range} value={range}>{range}</option>)}
+                    </select>
+                    {errors.age && <p className="mt-1 text-sm text-red-600">{errors.age}</p>}
+                </div>
 
-            {region === 'Other' && (
-              <div>
-                <label htmlFor="customRegion" className="block text-sm font-medium text-gray-700 mb-2">Please specify your region *</label>
-                <input type="text" id="customRegion" value={customRegion} onChange={(e) => setCustomRegion(e.target.value)} className="w-full px-4 py-3 border rounded-lg bg-white/50 focus:ring-2 focus:ring-yellow-500" placeholder="Enter your region" />
-                {errors.region && !customRegion.trim() && <p className="mt-1 text-sm text-red-600">{errors.region}</p>}
-              </div>
-            )}
+                <div>
+                    <label htmlFor="region" className="block text-sm font-semibold text-gray-700 mb-2">What region do you live in?</label>
+                    <select id="region" value={region} onChange={(e) => setRegion(e.target.value)} className={`w-full px-4 py-3 border rounded-lg bg-slate-50 focus:ring-2 focus:ring-yellow-500 transition-colors ${errors.region ? 'border-red-500' : 'border-gray-300'}`}>
+                        <option value="" disabled>Select your region...</option>
+                        {regions.map(r => <option key={r} value={r}>{r}</option>)}
+                    </select>
+                    {errors.region && !region.trim() && <p className="mt-1 text-sm text-red-600">{errors.region}</p>}
+                </div>
+                {region === 'Other' && (
+                  <input type="text" value={customRegion} onChange={(e) => setCustomRegion(e.target.value)} className="mt-2 w-full px-4 py-3 border rounded-lg bg-slate-50 focus:ring-2 focus:ring-yellow-500" placeholder="Please specify your region" />
+                )}
 
-            <div>
-              <label htmlFor="fieldOfStudy" className="block text-sm font-medium text-gray-700 mb-2">What is your primary field of study? *</label>
-              <select id="fieldOfStudy" value={fieldOfStudy} onChange={(e) => setFieldOfStudy(e.target.value)} className={`w-full px-4 py-3 border rounded-lg bg-white/50 focus:ring-2 focus:ring-yellow-500 transition-colors ${errors.fieldOfStudy ? 'border-red-500' : 'border-gray-300'}`}>
-                <option value="">Select your field...</option>
-                {scientificFields.map(field => <option key={field} value={field}>{field}</option>)}
-              </select>
-              {errors.fieldOfStudy && !fieldOfStudy.trim() && <p className="mt-1 text-sm text-red-600">{errors.fieldOfStudy}</p>}
-            </div>
+                <div>
+                    <label htmlFor="fieldOfStudy" className="block text-sm font-semibold text-gray-700 mb-2">What's your primary field of study/work?</label>
+                    <select id="fieldOfStudy" value={fieldOfStudy} onChange={(e) => setFieldOfStudy(e.target.value)} className={`w-full px-4 py-3 border rounded-lg bg-slate-50 focus:ring-2 focus:ring-yellow-500 transition-colors ${errors.fieldOfStudy ? 'border-red-500' : 'border-gray-300'}`}>
+                        <option value="" disabled>Select your field...</option>
+                        {scientificFields.map(group =>
+                            group.options ? (
+                                <optgroup label={group.label} key={group.label}>
+                                    {group.options.map(field => <option key={field} value={field}>{field}</option>)}
+                                </optgroup>
+                            ) : (
+                                <option key={group.label} value={group.label}>{group.label}</option>
+                            )
+                        )}
+                    </select>
+                    {errors.fieldOfStudy && !fieldOfStudy.trim() && <p className="mt-1 text-sm text-red-600">{errors.fieldOfStudy}</p>}
+                </div>
+                {fieldOfStudy === 'Other' && (
+                    <input type="text" value={customField} onChange={(e) => setCustomField(e.target.value)} className="mt-2 w-full px-4 py-3 border rounded-lg bg-slate-50 focus:ring-2 focus:ring-yellow-500" placeholder="Please specify your field" />
+                )}
 
-            {fieldOfStudy === 'Other' && (
-              <div>
-                <label htmlFor="customField" className="block text-sm font-medium text-gray-700 mb-2">Please specify your field *</label>
-                <input type="text" id="customField" value={customField} onChange={(e) => setCustomField(e.target.value)} className="w-full px-4 py-3 border rounded-lg bg-white/50 focus:ring-2 focus:ring-yellow-500" placeholder="e.g., Astrophysics" />
-                {errors.fieldOfStudy && !customField.trim() && <p className="mt-1 text-sm text-red-600">{errors.fieldOfStudy}</p>}
-              </div>
-            )}
-
-            <div className="pt-4">
-              <button type="submit" className="w-full inline-flex items-center justify-center space-x-3 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all transform hover:scale-105 hover:shadow-xl">
-                <span>Continue to CRediT Overview</span>
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
-          </form>
-        </div>
-        <div className="text-center text-sm text-gray-500 mt-8">
-          <p>Your information is collected for research purposes only and will be kept confidential.</p>
-        </div>
+                <div className="pt-4">
+                    <button type="submit" className="w-full inline-flex items-center justify-center space-x-2 bg-yellow-400 hover:bg-yellow-500 text-slate-800 px-8 py-4 rounded-xl font-semibold text-lg transition-all transform hover:scale-105">
+                        <span>Learn the roles</span>
+                        <ChevronRight className="w-5 h-5" />
+                    </button>
+                </div>
+            </form>
+        </main>
       </div>
     </div>
   );
 };
+
