@@ -3,7 +3,7 @@ import { supabase } from '../supabaseClient';
 import { SurveyResult } from '../types';
 import { iconSet } from '../data/icons';
 import { DynamicIcon } from './icons';
-import creditIcon from '../assets/crediticon.png';
+import scienceuxLogo from '../assets/scienceux-logo.png';
 import { Loader, RotateCcw } from 'lucide-react'; // Import RotateCcw
 
 interface ResultsPageProps {
@@ -63,24 +63,24 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({ onRestart }) => {
   return (
     <div className="min-h-screen bg-slate-50">
       <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            {/* Spacer */}
-            <div className="w-28"></div>
-            <div className="text-center">
-              <div className="flex justify-center items-center space-x-3 mb-1">
-                <img src={creditIcon} alt="CRediT icon" className="w-12 h-12" />
+        <div className="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="w-full md:w-36">
+              <button
+                  onClick={onRestart}
+                  className="w-full md:w-auto inline-flex justify-center items-center space-x-2 bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-xl font-semibold text-base transition-all transform hover:scale-105"
+              >
+                  <RotateCcw className="w-5 h-5" />
+                  <span>Start Over</span>
+              </button>
+            </div>
+            <div className="text-center order-first md:order-none">
+              <div className="flex flex-col justify-center items-center space-y-2">
+                <img src={scienceuxLogo} alt="ScienceUX Logo" className="h-12" />
                 <h1 className="text-3xl font-bold text-gray-900">Survey Results</h1>
               </div>
-              <p className="text-gray-600 text-sm">Top 3 most selected icons for each CRediT role.</p>
+              <p className="text-gray-600 text-sm mt-1">Top 3 most selected icons for each CRediT role.</p>
             </div>
-            {/* Add the button here */}
-            <button
-                onClick={onRestart}
-                className="flex items-center space-x-2 text-sm font-medium text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg transition-colors"
-            >
-                <RotateCcw className="w-4 h-4" />
-                <span>Start Over</span>
-            </button>
+            <div className="hidden md:block md:w-36"></div>
         </div>
       </header>
 

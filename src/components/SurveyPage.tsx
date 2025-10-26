@@ -6,7 +6,7 @@ import { iconSet } from '../data/icons';
 import { CreditRole, IconItem, UserInfo } from '../types';
 import { ArrowLeft, CheckCircle, RotateCcw, RefreshCw, ClipboardList, Undo2 } from 'lucide-react';
 import { supabase } from '../supabaseClient';
-import creditIcon from '../assets/crediticon.png';
+import scienceuxLogo from '../assets/scienceux-logo.png';
 
 const useIsMobile = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
@@ -189,8 +189,8 @@ export const SurveyPage: React.FC<SurveyPageProps> = ({
           <div className="flex items-center justify-between">
             <button onClick={onBack} className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors"><ArrowLeft className="w-5 h-5" /><span className="text-sm md:text-base">Back</span></button>
             <div className="text-center">
-              <div className="flex justify-center items-center space-x-3 mb-1">
-                <img src={creditIcon} alt="CRediT icon" className="w-12 h-12" />
+              <div className="flex flex-col justify-center items-center space-y-2">
+                <img src={scienceuxLogo} alt="ScienceUX Logo" className="h-12" />
                 <h1 className="text-xl md:text-3xl font-bold text-gray-900">CRediT Role Icon Survey</h1>
               </div>
             </div>

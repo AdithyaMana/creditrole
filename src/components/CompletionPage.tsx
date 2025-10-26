@@ -1,6 +1,6 @@
 // creditrole-main/src/components/CompletionPage.tsx
 import React from 'react';
-import creditIcon from '../assets/crediticon.png';
+import scienceuxLogo from '../assets/scienceux-logo.png';
 import { BarChart, RotateCcw } from 'lucide-react';
 
 interface CompletionPageProps {
@@ -12,12 +12,7 @@ export const CompletionPage: React.FC<CompletionPageProps> = ({ onSeeResults, on
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50 flex items-center justify-center p-4">
       <div className="text-center max-w-2xl mx-auto">
-        <div className="relative mb-8">
-          <div className="w-24 h-24 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
-            <img src={creditIcon} alt="Credit Icon" className="w-12 h-12" />
-          </div>
-          <div className="absolute inset-0 w-24 h-24 bg-green-200 rounded-full mx-auto animate-ping opacity-20"></div>
-        </div>
+        <img src={scienceuxLogo} alt="ScienceUX Logo" className="h-12 mx-auto mb-8" />
 
         <div className="bg-white rounded-2xl shadow-xl p-8 mb-8 border border-gray-100">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, BookOpen, CheckCircle } from 'lucide-react';
 import { creditDefinitions } from '../data/creditDefinitions';
-import creditIcon from '../assets/crediticon.png';
+import scienceuxLogo from '../assets/scienceux-logo.png';
 
 interface FlashcardsPageProps {
   onNext: () => void;
@@ -70,13 +70,15 @@ export const FlashcardsPage: React.FC<FlashcardsPageProps> = ({ onNext, onBack }
               <span className="text-sm md:text-base">Back</span>
             </button>
             <div className="text-center">
-              <div className="flex justify-center items-center space-x-2 md:space-x-3 mb-1">
-                <img src={creditIcon} alt="CRediT icon" className="h-12 w-auto" />
-                <h1 className="text-xl md:text-3xl font-bold text-gray-900">Learn CRediT Roles</h1>
+              <div className="flex flex-col justify-center items-center space-y-2">
+                <img src={scienceuxLogo} alt="ScienceUX Logo" className="h-12" />
+                <h1 className="text-xl md:text-2xl font-bold text-gray-900">
+                  Familiarize yourself with the 14 contributor roles
+                </h1>
+                <h2 className="text-lg md:text-xl font-semibold text-gray-700">
+                  Learn CRediT Roles
+                </h2>
               </div>
-              <p className="hidden md:block text-gray-600">
-                Familiarize yourself with the 14 contributor roles
-              </p>
             </div>
             <div style={{ width: '80px' }}></div> {/* Spacer */}
           </div>
@@ -120,6 +122,15 @@ export const FlashcardsPage: React.FC<FlashcardsPageProps> = ({ onNext, onBack }
                 <span className="text-sm md:text-base">Previous</span>
             </button>
             
+            {!isLastCard && (
+              <button
+                  onClick={onNext}
+                  className="text-sm font-semibold text-yellow-800 bg-yellow-200 hover:bg-yellow-300 px-4 py-2 rounded-full"
+              >
+                  Skip to survey
+              </button>
+            )}
+
             {isLastCard ? (
               <button
                 onClick={onNext}
@@ -157,18 +168,6 @@ export const FlashcardsPage: React.FC<FlashcardsPageProps> = ({ onNext, onBack }
               </div>
             ))}
           </div>
-        </div>
-
-        <div className="text-center mt-10 md:mt-12 pt-6 md:pt-8 border-t border-gray-200">
-            <h3 className="text-lg md:text-xl font-semibold text-gray-800 mb-2">Ready to start?</h3>
-            <p className="text-gray-600 mb-6 text-sm md:text-base">You can proceed to the survey at any time.</p>
-            <button
-                onClick={onNext}
-                className="inline-flex items-center space-x-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-6 py-3 md:px-8 md:py-4 rounded-xl font-semibold text-base md:text-lg transition-all duration-200 transform hover:scale-105 hover:shadow-xl"
-            >
-                <span>Go to Survey</span>
-                <ChevronRight className="w-5 h-5" />
-            </button>
         </div>
       </div>
       <style>{`

@@ -37,19 +37,19 @@ export const UserInfoPage: React.FC<UserInfoPageProps> = ({ onNext }) => {
   const [age, setAge] = useState<string>('');
   const [fieldOfStudy, setFieldOfStudy] = useState<string>('');
   const [customField, setCustomField] = useState<string>('');
-  const [region, setRegion] = useState<string>('');
+  const [countryOfResidence, setCountryOfResidence] = useState<string>('');
   const [customRegion, setCustomRegion] = useState<string>('');
-  const [errors, setErrors] = useState<{ age?: string; fieldOfStudy?: string; region?: string }>({});
+  const [errors, setErrors] = useState<{ age?: string; fieldOfStudy?: string; countryOfResidence?: string }>({});
 
   const validateForm = () => {
-    const newErrors: { age?: string; fieldOfStudy?: string; region?: string } = {};
+    const newErrors: { age?: string; fieldOfStudy?: string; countryOfResidence?: string } = {};
     if (!age) newErrors.age = 'Please select your age range';
 
     const finalField = fieldOfStudy === 'Other' ? customField : fieldOfStudy;
     if (!finalField.trim()) newErrors.fieldOfStudy = 'Please select or specify your field of study';
 
-    const finalRegion = region === 'Other' ? customRegion : region;
-    if (!finalRegion.trim()) newErrors.region = 'Please select or specify your region';
+    const finalRegion = countryOfResidence === 'Other' ? customRegion : countryOfResidence;
+    if (!finalRegion.trim()) newErrors.countryOfResidence = 'Please select or specify your region';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -59,23 +59,26 @@ export const UserInfoPage: React.FC<UserInfoPageProps> = ({ onNext }) => {
     e.preventDefault();
     if (validateForm()) {
       const finalField = fieldOfStudy === 'Other' ? customField : fieldOfStudy;
-      const finalRegion = region === 'Other' ? customRegion : region;
-      onNext({ age, fieldOfStudy: finalField, region: finalRegion });
+      const finalRegion = countryOfResidence === 'Other' ? customRegion : countryOfResidence;
+      onNext({ age, fieldOfStudy: finalField, countryOfResidence: finalRegion });
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-white">
       <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-4xl mx-auto px-4 py-6 flex flex-col items-center text-center">
-            <img 
-              src={scienceuxLogo} 
-              alt="Science UX Logo" 
-              className="h-12 w-auto mb-3"
-            />
-            <h1 className="text-2xl font-bold text-slate-800">
-              Help choose an icon for each role in science...
-            </h1>
+        <div className="max-w-4xl mx-auto px-4 py-8">
+          <div className="text-center">
+            <div className="flex flex-col justify-center items-center space-y-4 mb-4">
+              <img src={scienceuxLogo} alt="ScienceUX Logo" className="h-12" />
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+                Help us choose an icon for each role in science
+              </h1>
+              <h2 className="text-lg md:text-xl font-semibold text-gray-700">
+                CRediT Role Icon Survey
+              </h2>
+            </div>
+          </div>
         </div>
       </header>
       <div className="max-w-4xl mx-auto px-4 py-8">
@@ -113,14 +116,14 @@ export const UserInfoPage: React.FC<UserInfoPageProps> = ({ onNext }) => {
                 </div>
 
                 <div>
-                    <label htmlFor="region" className="block text-sm font-semibold text-gray-700 mb-2">What region do you live in?</label>
-                    <select id="region" value={region} onChange={(e) => setRegion(e.target.value)} className={`w-full px-4 py-3 border rounded-lg bg-slate-50 focus:ring-2 focus:ring-yellow-500 transition-colors ${errors.region ? 'border-red-500' : 'border-gray-300'}`}>
+                    <label htmlFor="countryOfResidence" className="block text-sm font-semibold text-gray-700 mb-2">What region do you live in?</label>
+                    <select id="countryOfResidence" value={countryOfResidence} onChange={(e) => setCountryOfResidence(e.target.value)} className={`w-full px-4 py-3 border rounded-lg bg-slate-50 focus:ring-2 focus:ring-yellow-500 transition-colors ${errors.countryOfResidence ? 'border-red-500' : 'border-gray-300'}`}>
                         <option value="" disabled>Select your region...</option>
                         {regions.map(r => <option key={r} value={r}>{r}</option>)}
                     </select>
-                    {errors.region && !region.trim() && <p className="mt-1 text-sm text-red-600">{errors.region}</p>}
+                    {errors.countryOfResidence && !countryOfResidence.trim() && <p className="mt-1 text-sm text-red-600">{errors.countryOfResidence}</p>}
                 </div>
-                {region === 'Other' && (
+                {countryOfResidence === 'Other' && (
                   <input type="text" value={customRegion} onChange={(e) => setCustomRegion(e.target.value)} className="mt-2 w-full px-4 py-3 border rounded-lg bg-slate-50 focus:ring-2 focus:ring-yellow-500" placeholder="Please specify your region" />
                 )}
 
@@ -156,4 +159,3 @@ export const UserInfoPage: React.FC<UserInfoPageProps> = ({ onNext }) => {
     </div>
   );
 };
-
