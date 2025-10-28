@@ -196,10 +196,10 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({
               <p className="font-medium">
                 For questions about this research, please contact us at{' '}
                 <a
-                  href="mailto:hello@better.science"
+                  href="mailto:info@scienceux.org"
                   className="text-blue-600 hover:underline"
                 >
-                  hello@better.science
+                  info@scienceux.org
                 </a>
                 .
               </p>
