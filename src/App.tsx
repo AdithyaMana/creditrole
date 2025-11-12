@@ -114,6 +114,10 @@ function App() {
     setSurveyState(prev => ({ ...prev, currentPage: 'results' }));
   };
 
+  const handleSkipToResults = () => {
+    setSurveyState(prev => ({ ...prev, currentPage: 'results' }));
+  };
+
   // Add handler for new page
   const handleSeeExample = () => {
     setSurveyState(prev => ({ ...prev, currentPage: 'contributorExample' }));
@@ -138,7 +142,7 @@ function App() {
 
   switch (surveyState.currentPage) {
     case 'userInfo':
-      return <UserInfoPage onNext={handleUserInfoSubmit} />;
+      return <UserInfoPage onNext={handleUserInfoSubmit} onSkip={handleSkipToResults} />;
 
     case 'flashcards':
       return (
@@ -188,7 +192,7 @@ function App() {
       );
 
     default:
-      return <UserInfoPage onNext={handleUserInfoSubmit} />;
+      return <UserInfoPage onNext={handleUserInfoSubmit} onSkip={handleSkipToResults} />;
   }
 }
 

@@ -81,9 +81,9 @@ export const SurveyPage: React.FC<SurveyPageProps> = ({
       if (rError) throw rError;
 
       onComplete();
-    } catch (error) {
-      console.error('Error submitting survey:', error);
-      alert('Failed to submit survey.');
+    } catch (error: any) {
+      console.error('Error submitting survey:', error?.message || error);
+      alert(`Failed to submit survey. ${error?.message || ''}`);
     } finally {
       setIsSubmitting(false);
     }

@@ -5,6 +5,7 @@ import scienceuxLogo from '../assets/scienceux-logo.png'; // Import the logo
 
 interface UserInfoPageProps {
   onNext: (userInfo: UserInfo) => void;
+  onSkip: () => void;
 }
 
 const scientificFields = [
@@ -33,7 +34,7 @@ const regions = [
   'Other'
 ];
 
-export const UserInfoPage: React.FC<UserInfoPageProps> = ({ onNext }) => {
+export const UserInfoPage: React.FC<UserInfoPageProps> = ({ onNext, onSkip }) => {
   const [age, setAge] = useState<string>('');
   const [fieldOfStudy, setFieldOfStudy] = useState<string>('');
   const [customField, setCustomField] = useState<string>('');
@@ -155,6 +156,11 @@ export const UserInfoPage: React.FC<UserInfoPageProps> = ({ onNext }) => {
                 </div>
             </form>
         </main>
+        <div className="max-w-lg mx-auto text-left pt-4">
+            <button type="button" onClick={onSkip} className="text-sm text-slate-300 opacity-5 hover:opacity-100 hover:underline">
+                Skip to results
+            </button>
+        </div>
       </div>
     </div>
   );
