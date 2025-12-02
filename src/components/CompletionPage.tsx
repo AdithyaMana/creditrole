@@ -86,7 +86,7 @@ export const CompletionPage: React.FC<CompletionPageProps> = ({
             className="inline-flex items-center space-x-2 bg-blue-100 hover:bg-blue-200 text-blue-800 px-6 py-3 rounded-xl font-semibold text-base transition-all transform hover:scale-105"
           >
             <Eye className="w-5 h-5" />
-            <span>View Example Project</span>
+            <span>CRediT Roles For This Project</span>
           </button>
         </div>
       </div>

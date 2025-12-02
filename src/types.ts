@@ -68,3 +68,8 @@ export interface SurveyResult {
   assigned_icon: string;
   selection_count: number;
 }
+
+export interface FieldStats {
+  field_of_study: string;
+  count: number;
+}
