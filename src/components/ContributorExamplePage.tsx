@@ -18,7 +18,7 @@ const exampleProjectData = [
   },
   { role: 'Data curation', contributors: 'Michael Lai, Rieke Schäfer' },
   { role: 'Formal analysis', contributors: 'Michael Lai, Rieke Schäfer' },
-  { role: 'Funding acquisition', contributors: '' },
+  { role: 'Funding acquisition', contributors: 'N/A' },
   { role: 'Investigation', contributors: 'Mike Morrison, Michael Lai, Rieke Schäfer' },
   {
     role: 'Methodology',
@@ -74,7 +74,8 @@ export const ContributorExamplePage: React.FC<ContributorExamplePageProps> = ({
     <div className="min-h-screen bg-slate-50">
       <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
         <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center gap-4">
-          <div className="w-full md:w-36">
+          {/* Increased width from w-36 to w-48 to prevent wrapping */}
+          <div className="w-full md:w-48">
             <button
               onClick={onBack}
               className="w-full md:w-auto inline-flex justify-center items-center space-x-2 bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-xl font-semibold text-base transition-all transform hover:scale-105"
@@ -90,12 +91,12 @@ export const ContributorExamplePage: React.FC<ContributorExamplePageProps> = ({
                 CRediT in Action
               </h1>
             </div>
-            {/* Subtitle removed here */}
           </div>
-          <div className="w-full md:w-36 flex justify-end">
+          {/* Increased width from w-36 to w-48 and added whitespace-nowrap */}
+          <div className="w-full md:w-48 flex justify-end">
             <button
               onClick={onNext}
-              className="w-full md:w-auto inline-flex justify-center items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold text-base transition-all transform hover:scale-105"
+              className="w-full md:w-auto inline-flex justify-center items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold text-base transition-all transform hover:scale-105 whitespace-nowrap"
             >
               <span>See Results</span>
               <ChevronRight className="w-5 h-5" />
