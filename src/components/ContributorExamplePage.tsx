@@ -71,35 +71,41 @@ export const ContributorExamplePage: React.FC<ContributorExamplePageProps> = ({
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    // Added pb-24 for mobile to account for fixed bottom bar
+    <div className="min-h-screen bg-slate-50 pb-24 md:pb-0">
       <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center gap-4">
-          {/* Increased width from w-36 to w-48 to prevent wrapping */}
-          <div className="w-full md:w-48">
+        <div className="max-w-6xl mx-auto px-4 py-4 flex flex-col md:grid md:grid-cols-3 gap-4 items-center">
+          
+          {/* Left: Back Button */}
+          {/* Mobile: Order 1 (Top), Desktop: Left Column */}
+          <div className="w-full md:w-auto flex justify-start order-1 md:order-none">
             <button
               onClick={onBack}
-              className="w-full md:w-auto inline-flex justify-center items-center space-x-2 bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-xl font-semibold text-base transition-all transform hover:scale-105"
+              className="w-auto inline-flex justify-center items-center space-x-2 bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-xl font-semibold text-base transition-all transform hover:scale-105"
             >
               <ChevronLeft className="w-5 h-5" />
               <span>Back</span>
             </button>
           </div>
-          <div className="text-center order-first md:order-none">
-            <div className="flex flex-col justify-center items-center space-y-2">
-              <img src={scienceuxLogo} alt="ScienceUX Logo" className="h-12" />
-              <h1 className="text-3xl font-bold text-gray-900">
-                CRediT in Action
-              </h1>
-            </div>
+
+          {/* Center: Title */}
+          {/* Mobile: Order 2, Desktop: Center Column */}
+          <div className="flex flex-col justify-center items-center space-y-2 text-center order-2 md:order-none w-full">
+            <img src={scienceuxLogo} alt="ScienceUX Logo" className="h-12" />
+            <h1 className="text-3xl font-bold text-gray-900 whitespace-nowrap">
+              CRediT in Action
+            </h1>
           </div>
-          {/* Increased width from w-36 to w-48 and added whitespace-nowrap */}
-          <div className="w-full md:w-48 flex justify-end">
+
+          {/* Right: See Results Button (Desktop Only) */}
+          {/* Hidden on Mobile, Desktop: Right Column */}
+          <div className="hidden md:flex w-full md:w-auto justify-end order-3 md:order-none">
             <button
               onClick={onNext}
               className="w-full md:w-auto inline-flex justify-center items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold text-base transition-all transform hover:scale-105 whitespace-nowrap"
             >
               <span>See Results</span>
-              <ChevronRight className="w-5 h-5" />
+              <ChevronRight className="w-5 h-5 flex-shrink-0" />
             </button>
           </div>
         </div>
@@ -214,6 +220,17 @@ export const ContributorExamplePage: React.FC<ContributorExamplePageProps> = ({
           )}
         </div>
       </main>
+
+      {/* Mobile Fixed Bottom Bar */}
+      <div className="md:hidden fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 p-4 z-20 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+        <button
+          onClick={onNext}
+          className="w-full flex justify-center items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded-xl font-semibold text-lg transition-all active:scale-[0.98]"
+        >
+          <span>See Results</span>
+          <ChevronRight className="w-6 h-6" />
+        </button>
+      </div>
 
       <style>{`
         .animate-fade-in {
