@@ -6,14 +6,16 @@ import { SurveyPage } from './components/SurveyPage';
 import { CompletionPage } from './components/CompletionPage';
 import { ResultsPage } from './components/ResultsPage';
 import { ContributorExamplePage } from './components/ContributorExamplePage';
+import { RankingSurveyPage } from './components/RankingSurveyPage';
 import { SurveyState, UserInfo, CreditRole, IconItem } from './types';
 
-// Local storage keys and helper functions (no changes here)...
+// Local storage keys and helper functions
 const STORAGE_KEYS = {
   SURVEY_STATE: 'credit_survey_state',
   USER_INFO: 'credit_survey_user_info',
   SURVEY_DATA: 'credit_survey_data',
 };
+
 const saveToStorage = (key: string, data: any) => {
   try {
     localStorage.setItem(key, JSON.stringify(data));
@@ -21,6 +23,7 @@ const saveToStorage = (key: string, data: any) => {
     console.error(`Failed to save to storage: ${key}`, e);
   }
 };
+
 const loadFromStorage = (key: string) => {
   try {
     const item = localStorage.getItem(key);
@@ -30,6 +33,7 @@ const loadFromStorage = (key: string) => {
     return null;
   }
 };
+
 const clearStorage = () => {
   Object.values(STORAGE_KEYS).forEach(key => {
     localStorage.removeItem(key);
@@ -42,9 +46,9 @@ function App() {
     const savedUserInfo = loadFromStorage(STORAGE_KEYS.USER_INFO);
     const savedSurveyData = loadFromStorage(STORAGE_KEYS.SURVEY_DATA);
 
-    // If survey was submitted, force to 'completed', 'example', or 'results' page
+    // If survey was submitted, force to 'completed', 'example', 'results' or 'rankingSurvey' page
     if (savedState?.isSubmitted) {
-      const allowedPages = ['completed', 'contributorExample', 'results'];
+      const allowedPages = ['completed', 'contributorExample', 'results', 'rankingSurvey'];
       return {
         currentPage: allowedPages.includes(savedState?.currentPage)
           ? savedState.currentPage
@@ -100,7 +104,6 @@ function App() {
   };
 
   const handleCompleteSurvey = () => {
-    // Clear in-progress survey data from state and storage
     setSurveyState(prev => ({
       ...prev,
       currentPage: 'completed',
@@ -118,7 +121,6 @@ function App() {
     setSurveyState(prev => ({ ...prev, currentPage: 'results' }));
   };
 
-  // Add handler for new page
   const handleSeeExample = () => {
     setSurveyState(prev => ({ ...prev, currentPage: 'contributorExample' }));
   };
@@ -132,6 +134,21 @@ function App() {
     });
   };
 
+  // Handler for the new Tie-Breaker survey
+  const handleTakeRankingSurvey = () => {
+    const currentUserInfo = surveyState.userInfo || {
+      age: 'Returning',
+      fieldOfStudy: 'Returning',
+      countryOfResidence: 'Returning'
+    };
+
+    setSurveyState(prev => ({ 
+      ...prev, 
+      currentPage: 'rankingSurvey',
+      userInfo: currentUserInfo
+    }));
+  };
+
   const handleSurveyDataChange = (data: {
     roles: CreditRole[];
     currentIconIndex: number;
@@ -142,7 +159,13 @@ function App() {
 
   switch (surveyState.currentPage) {
     case 'userInfo':
-      return <UserInfoPage onNext={handleUserInfoSubmit} onSkip={handleSkipToResults} />;
+      return (
+        <UserInfoPage 
+          onNext={handleUserInfoSubmit} 
+          onSkip={handleSkipToResults} 
+          onTakeRanking={handleTakeRankingSurvey}
+        />
+      );
 
     case 'flashcards':
       return (
@@ -158,7 +181,7 @@ function App() {
           onBack={handleBackToFlashcards}
           onComplete={handleCompleteSurvey}
           userInfo={surveyState.userInfo}
-          // @ts-expect-error - initialSurveyData and onSurveyDataChange are not on props
+          // @ts-expect-error - initialSurveyData inferred type mismatch
           initialSurveyData={surveyState.surveyData}
           onSurveyDataChange={handleSurveyDataChange}
         />
@@ -167,9 +190,9 @@ function App() {
     case 'completed':
       return (
         <CompletionPage
-          onSeeResults={handleSeeResults} // Main CTA goes to results
+          onSeeResults={handleSeeResults}
           onRestart={handleRestartSurvey}
-          onSeeExample={handleSeeExample} // Secondary link goes to example
+          onSeeExample={handleSeeExample}
         />
       );
 
@@ -177,22 +200,36 @@ function App() {
       return (
         <ResultsPage
           onRestart={handleRestartSurvey}
-          onBack={handleBackToCompletion} // Back goes to completion
-          // No onSeeExample here
+          onBack={handleBackToCompletion}
         />
       );
 
-    // Add new case for the contributor example page
     case 'contributorExample':
       return (
         <ContributorExamplePage
-          onBack={handleBackToCompletion} // Back goes to completion
-          onNext={handleSeeResults} // Next goes to results
+          onBack={handleBackToCompletion}
+          onNext={handleSeeResults}
+        />
+      );
+
+    case 'rankingSurvey':
+      return (
+        <RankingSurveyPage
+          userInfo={surveyState.userInfo}
+          onBack={() => setSurveyState(prev => ({ ...prev, currentPage: 'userInfo' }))}
+          // CHANGE: Now redirects to 'userInfo' (Start) instead of 'completed'
+          onComplete={() => setSurveyState(prev => ({ ...prev, currentPage: 'userInfo' }))}
         />
       );
 
     default:
-      return <UserInfoPage onNext={handleUserInfoSubmit} onSkip={handleSkipToResults} />;
+      return (
+        <UserInfoPage 
+          onNext={handleUserInfoSubmit} 
+          onSkip={handleSkipToResults}
+          onTakeRanking={handleTakeRankingSurvey}
+        />
+      );
   }
 }
 

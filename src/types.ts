@@ -46,7 +46,8 @@ export interface SurveyState {
     | 'survey'
     | 'completed'
     | 'results'
-    | 'contributorExample'; // Added new page state
+    | 'contributorExample'
+    | 'rankingSurvey';
   isSubmitted: boolean;
   history: any[]; // Kept as 'any' to avoid breaking changes if structure varies.
   userInfo?: UserInfo;
