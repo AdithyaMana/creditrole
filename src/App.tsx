@@ -42,6 +42,26 @@ const clearStorage = () => {
 
 function App() {
   const [surveyState, setSurveyState] = useState<SurveyState>(() => {
+    // --- DIRECT LINK LOGIC START ---
+    // Check if the URL contains ?tiebreaker=true
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('tiebreaker') === 'true') {
+      // If found, force the app directly to the Ranking Survey
+      return {
+        currentPage: 'rankingSurvey',
+        isSubmitted: false, 
+        history: [],
+        // We provide dummy info so the survey doesn't break
+        userInfo: {
+          age: 'DirectLink',
+          fieldOfStudy: 'DirectLink',
+          countryOfResidence: 'DirectLink'
+        },
+        surveyData: undefined,
+      };
+    }
+    // --- DIRECT LINK LOGIC END ---
+
     const savedState = loadFromStorage(STORAGE_KEYS.SURVEY_STATE);
     const savedUserInfo = loadFromStorage(STORAGE_KEYS.USER_INFO);
     const savedSurveyData = loadFromStorage(STORAGE_KEYS.SURVEY_DATA);
@@ -127,6 +147,9 @@ function App() {
 
   const handleRestartSurvey = () => {
     clearStorage();
+    // Clear the URL so hitting refresh doesn't force them back to the tie-breaker
+    window.history.replaceState({}, '', window.location.pathname);
+    
     setSurveyState({
       currentPage: 'userInfo',
       isSubmitted: false,
@@ -134,7 +157,7 @@ function App() {
     });
   };
 
-  // Handler for the new Tie-Breaker survey
+  // Handler for internal navigation to ranking survey
   const handleTakeRankingSurvey = () => {
     const currentUserInfo = surveyState.userInfo || {
       age: 'Returning',
@@ -181,7 +204,7 @@ function App() {
           onBack={handleBackToFlashcards}
           onComplete={handleCompleteSurvey}
           userInfo={surveyState.userInfo}
-          // @ts-expect-error - initialSurveyData inferred type mismatch
+          // @ts-expect-error - initialSurveyData type alignment
           initialSurveyData={surveyState.surveyData}
           onSurveyDataChange={handleSurveyDataChange}
         />
@@ -217,8 +240,14 @@ function App() {
         <RankingSurveyPage
           userInfo={surveyState.userInfo}
           onBack={() => setSurveyState(prev => ({ ...prev, currentPage: 'userInfo' }))}
-          // CHANGE: Now redirects to 'userInfo' (Start) instead of 'completed'
-          onComplete={() => setSurveyState(prev => ({ ...prev, currentPage: 'userInfo' }))}
+          onComplete={() => {
+            // When they finish, we clear the URL so they aren't stuck in the loop
+            if (window.location.search.includes('tiebreaker=true')) {
+               window.history.replaceState({}, '', window.location.pathname);
+            }
+            // Send them back to the start
+            setSurveyState(prev => ({ ...prev, currentPage: 'userInfo' }));
+          }}
         />
       );
 
