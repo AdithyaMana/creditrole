@@ -4,7 +4,9 @@ import { SurveyResult } from '../types';
 import { iconSet } from '../data/icons';
 import { DynamicIcon } from './icons';
 import scienceuxLogo from '../assets/scienceux-logo.png';
-import { Loader, RotateCcw, ChevronLeft } from 'lucide-react';
+import { Loader, RotateCcw, ChevronLeft, Trophy, Users } from 'lucide-react';
+
+// --- Types ---
 
 // Define FieldStats locally to ensure it works even if types.ts isn't updated
 interface FieldStats {
@@ -34,6 +36,18 @@ interface GroupedResults {
     selection_count: number;
     shape: string;
   }[];
+}
+
+// NEW: Interface for Tie-Breaker Data
+interface RankingResult {
+  role_title: string;
+  icon_name: string;
+  first_choice_count: number;
+  second_choice_count: number;
+}
+
+interface GroupedRankingResults {
+  [key: string]: RankingResult[];
 }
 
 // --- Helper: Grouping Logic for Fields ---
@@ -103,6 +117,7 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({
   onBack,
 }) => {
   const [results, setResults] = useState<GroupedResults>({});
+  const [rankingResults, setRankingResults] = useState<GroupedRankingResults>({});
   
   // State for the three charts
   const [fieldStats, setFieldStats] = useState<DemographicItem[]>([]);
@@ -116,11 +131,15 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({
     const fetchData = async () => {
       setLoading(true);
       try {
-        // 1. Fetch Top Icons
+        // 1. Fetch Top Icons (Original Survey)
         const { data: iconsData, error: iconsError } = await supabase.rpc('get_top_icons');
         if (iconsError) throw iconsError;
 
-        // 2. Fetch All Demographics
+        // 2. Fetch Tie-Breaker Data (NEW)
+        const { data: rankData, error: rankError } = await supabase.rpc('get_ranking_analytics');
+        if (rankError) console.warn("Ranking fetch failed (check SQL function):", rankError);
+
+        // 3. Fetch All Demographics
         const { data: demoData, error: demoError } = await supabase.rpc('get_demographics_summary');
         
         if (demoError) {
@@ -159,7 +178,7 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({
             setAgeStats(ages);
         }
 
-        // 3. Process Icons
+        // Process Icons (Original Survey)
         if (iconsData) {
           const dataWithShapes = iconsData.map((row: SurveyResult) => {
             const iconDetails = iconSet.find(
@@ -167,7 +186,7 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({
             );
             return {
               ...row,
-              shape: iconDetails ? iconDetails.shape : 'circle',
+              shape: iconDetails ? iconDetails.shape : 'circle', // Fallback shape
             };
           });
 
@@ -184,6 +203,17 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({
           );
           setResults(grouped);
         }
+
+        // Process Ranking/Tie-Breaker Data (NEW)
+        if (rankData) {
+            const groupedRank = (rankData as RankingResult[]).reduce((acc, curr) => {
+              if (!acc[curr.role_title]) acc[curr.role_title] = [];
+              acc[curr.role_title].push(curr);
+              return acc;
+            }, {} as GroupedRankingResults);
+            setRankingResults(groupedRank);
+        }
+
       } catch (err: any) {
         console.error('Error fetching data:', err);
         setError(err.message || 'Failed to load results.');
@@ -248,11 +278,14 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({
 
         {!loading && !error && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-            {/* Left Column: Role Icon Preferences (2/3 width) */}
-            <div className="lg:col-span-2">
-              <div className="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden h-full">
+            
+            {/* Left Column: Data Tables (2/3 width) */}
+            <div className="lg:col-span-2 space-y-12">
+              
+              {/* 1. ORIGINAL SURVEY RESULTS */}
+              <div className="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
                 <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
-                  <h2 className="text-lg font-bold text-gray-800">Top Icon Selections</h2>
+                  <h2 className="text-lg font-bold text-gray-800">Top Icon Selections (Original Survey)</h2>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full">
@@ -305,6 +338,65 @@ export const ResultsPage: React.FC<ResultsPageProps> = ({
                   </table>
                 </div>
               </div>
+
+              {/* 2. TIE-BREAKER ANALYSIS (NEW SECTION) */}
+              <div className="bg-white rounded-2xl shadow-xl border border-purple-100 overflow-hidden">
+                <div className="px-6 py-4 border-b border-purple-100 bg-purple-50 flex items-center gap-2">
+                  <Users className="w-5 h-5 text-purple-600" />
+                  <h2 className="text-lg font-bold text-purple-900">Tie-Breaker Analysis (Top 2)</h2>
+                </div>
+                
+                <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {Object.keys(rankingResults).sort().map(roleTitle => {
+                      // Get only top 2 icons based on first choice votes
+                      const topTwo = [...rankingResults[roleTitle]]
+                          .sort((a, b) => b.first_choice_count - a.first_choice_count)
+                          .slice(0, 2);
+                      
+                      const maxVotes = Math.max(...topTwo.map(r => r.first_choice_count + r.second_choice_count), 1);
+
+                      return (
+                        <div key={roleTitle} className="border border-purple-100 rounded-xl p-4 bg-white shadow-sm">
+                           <h3 className="font-bold text-slate-800 mb-4 border-b border-gray-100 pb-2">{roleTitle}</h3>
+                           <div className="space-y-4">
+                              {topTwo.map((result, idx) => (
+                                  <div key={result.icon_name} className="flex items-start gap-3">
+                                      <div className={`w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-lg border ${idx === 0 ? 'bg-yellow-50 border-yellow-200 text-yellow-600' : 'bg-gray-50 border-gray-200 text-gray-500'}`}>
+                                          <DynamicIcon name={result.icon_name} className="w-5 h-5" />
+                                      </div>
+                                      <div className="flex-1">
+                                          <div className="flex justify-between items-center mb-1">
+                                            <span className="text-sm font-semibold capitalize text-gray-700">{result.icon_name.replace(/-/g, ' ')}</span>
+                                            {idx === 0 && <Trophy className="w-3 h-3 text-yellow-500" />}
+                                          </div>
+                                          
+                                          {/* 1st vs 2nd Choice Mini Bars */}
+                                          <div className="space-y-1">
+                                              <div className="flex items-center text-[10px] gap-2">
+                                                  <span className="w-6 font-medium text-green-700">1st</span>
+                                                  <div className="flex-1 bg-gray-100 rounded-full h-1.5">
+                                                      <div className="bg-green-500 h-1.5 rounded-full" style={{ width: `${(result.first_choice_count / maxVotes) * 100}%` }}></div>
+                                                  </div>
+                                                  <span className="w-4 text-right text-gray-500">{result.first_choice_count}</span>
+                                              </div>
+                                              <div className="flex items-center text-[10px] gap-2">
+                                                  <span className="w-6 font-medium text-blue-700">2nd</span>
+                                                  <div className="flex-1 bg-gray-100 rounded-full h-1.5">
+                                                      <div className="bg-blue-400 h-1.5 rounded-full" style={{ width: `${(result.second_choice_count / maxVotes) * 100}%` }}></div>
+                                                  </div>
+                                                  <span className="w-4 text-right text-gray-500">{result.second_choice_count}</span>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              ))}
+                           </div>
+                        </div>
+                      );
+                  })}
+                </div>
+              </div>
+
             </div>
 
             {/* Right Column: Demographics Cards (1/3 width) */}
