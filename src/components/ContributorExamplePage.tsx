@@ -14,7 +14,7 @@ const exampleProjectData = [
   {
     role: 'Conceptualization',
     contributors:
-      'Mike Morrison, Michael Lai, Acorn Steed, Adithya Mana, Barry Prendergast, Brian Blais, Celso Júnior, David Green, Divya Koppikar, Jay Patel, Lloyd Gwishiri, Nafisa Mohamed, Philipp Koellinger, Rieke Schäfer, Rowan Cockett, Ryan Molen, Samir Mamdouh, Steve Purves, Swetha Ramaswamy, Thurstan Hethorn',
+      'Mike Morrison, Michael Lai, Acorn Steed, Adithya Mana, Barry Prendergast, Brian Blais, Celso Júnior, David Green, Divya Koppikar, Jay Patel, Lloyd Gwishiri, Nafisa Mohamed, Philipp Koellinger, Rieke Schäfer, Rowan Cockett, Ryan Molen, Samir Mamdouh, Steve Purves, Swetha Ramaswamy, Thurstan Hethorn, Anna Schäfer, Leonardo Marcazzan, Vanessa Schendel, Jack Duncan',
   },
   { role: 'Data curation', contributors: 'Michael Lai, Rieke Schäfer' },
   { role: 'Formal analysis', contributors: 'Michael Lai, Rieke Schäfer' },
